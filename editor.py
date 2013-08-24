@@ -1,4 +1,6 @@
-from PySide import QtCore, QtGui
+# -*- coding: utf-8 -*-
+
+from PyQt4 import QtCore, QtGui
 
 
 class Editor(QtGui.QTextEdit):

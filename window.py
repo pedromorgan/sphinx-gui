@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
+
 import os
 import subprocess
 import sys
 
-from PySide import QtGui, QtCore
-from unipath import Path
+from PyQt4 import QtGui, QtCore
+#from unipath import Path
 
 from dialogs import OpenDialog
 from editor import Editor

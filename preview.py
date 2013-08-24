@@ -1,5 +1,7 @@
-from PySide import QtGui, QtCore, QtWebKit
-from unipath import Path
+# -*- coding: utf-8 -*-
+
+from PyQt4 import QtGui, QtCore, QtWebKit
+#from unipath import Path
 
 
 class Preview(QtWebKit.QWebView):

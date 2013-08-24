@@ -1,4 +1,6 @@
-from PySide import QtGui, QtCore
+# -*- coding: utf-8 -*-
+
+from PyQt4 import QtGui, QtCore
 
 
 class Tree(QtGui.QTreeView):

@@ -1,7 +1,11 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import sys
 
-from PySide import QtGui
+import app_globals as G
+
+from PyQt4 import QtGui
 
 from window import MainWindow
 
