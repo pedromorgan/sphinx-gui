@@ -20,6 +20,7 @@ class MainWindow(QtGui.QMainWindow):
             # Workaround for Qt issue on OS X that causes QMainWindow to
             # hide when adding QToolBar, see
             # https://bugreports.qt-project.org/browse/QTBUG-4300
+            
             super(MainWindow, self).__init__(
                 parent,
                 QtCore.Qt.MacWindowToolBarButtonHint
