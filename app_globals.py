@@ -1,6 +1,6 @@
 
 """
-This file is not yey implemented.. 
+This file is not yet implemented.. 
 But the idea would be to autodetect.. whether 
 pyside or PyQt
 python 2.. 3 etc
@@ -9,7 +9,7 @@ paticular is "import" requiored, eg import pyside, PyQt5 etc
 eg
 
 import app_globals as G
-
+Th
 # G.PYQT below is whatever is on your system
 def MyWidget(G.PYQT): 
 

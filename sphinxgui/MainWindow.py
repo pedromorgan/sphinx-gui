@@ -5,7 +5,7 @@ import subprocess
 import sys
 
 from PyQt4 import QtGui, QtCore
-#from unipath import Path
+from unipath import Path
 
 from dialogs import OpenDialog
 from editor import Editor
@@ -14,22 +14,63 @@ from tree import Tree
 
 
 class MainWindow(QtGui.QMainWindow):
+    
+    
     def __init__(self, parent=None):
-        # super(MainWindow, self).__init__(parent)
+        QtGui.QMainWindow.__init__(self, parent)
+        """
         if sys.platform == 'darwin':
             # Workaround for Qt issue on OS X that causes QMainWindow to
             # hide when adding QToolBar, see
             # https://bugreports.qt-project.org/browse/QTBUG-4300
-            
             super(MainWindow, self).__init__(
                 parent,
                 QtCore.Qt.MacWindowToolBarButtonHint
             )
         else:
             super(MainWindow, self).__init__(parent)
+        """    
+        self.setGeometry( 10, 10, 1200, 800 )
+        self.move( 1300, 20 )
 
-    def setup_app(self):
-        self.setupActions()
+
+        #========================================================
+        ## Le Menu and creates Actions
+        # File Menu --------------------------------------------------
+        """self.openAction = QtGui.QAction(
+            # QtGui.QIcon(":/images/open.png"),
+            "&Open File",
+            self,
+            shortcut="Ctrl+O",
+            statusTip="Open File",
+            triggered=self.openFile
+        )"""
+        
+        ##=== Menus
+        fileMenu = self.menuBar().addMenu("File")
+        self.actionOpenFile = fileMenu.addAction("Open File", self.on_open_file)
+        self.actionOpenFolder = fileMenu.addAction("Open Folder", self.on_open_folder)
+        #self.actionOpenFolder.setShortcut("Ctrl+Shift+O")
+       
+
+
+        """fileMenu.addAction(self.openFolderAction)
+        fileMenu.addSeparator()
+        fileMenu.addAction(self.saveAction)
+        fileMenu.addAction(self.saveAsAction)
+        """
+        fileMenu.addSeparator()
+        self.actionQuite = fileMenu.addAction("Quit", self.on_quit)
+        
+        
+        buildMenu = self.menuBar().addMenu("&Build")
+        self.actionBuildHtml = buildMenu.addAction("Build &HTML", self.on_build_html)
+        #buildMenu.addAction(self.buildHTMLAction)
+        #buildMenu.addAction(self.buildPDFAction)
+        
+
+        #self.setupActions()
+      
         splitter = QtGui.QSplitter(QtCore.Qt.Horizontal)
         self.tree = Tree()
         self.editor = Editor()
@@ -50,14 +91,12 @@ class MainWindow(QtGui.QMainWindow):
         splitter.addWidget(self.tab_widget)
 
         self.setWindowTitle("Sphinx Docs Editor")
-        self.createMenus()
+        #self.createMenus()
         self.createToolBars()
         self.showMaximized()
 
     def setupActions(self):
-        """
-            Set up the top menu actions and keyboard shortcuts.
-        """
+
 
         # File Menu --------------------------------------------------
         self.openAction = QtGui.QAction(
@@ -123,7 +162,7 @@ class MainWindow(QtGui.QMainWindow):
             triggered=self.buildPDF
         )
 
-    def createMenus(self):
+    def deadcreateMenus(self):
         self.fileMenu = self.menuBar().addMenu("&File")
         self.fileMenu.addAction(self.openAction)
         self.fileMenu.addAction(self.openFolderAction)
@@ -138,16 +177,16 @@ class MainWindow(QtGui.QMainWindow):
 
     def createToolBars(self):
         self.fileToolBar = self.addToolBar("File")
-        self.fileToolBar.addAction(self.openAction)
-        self.fileToolBar.addAction(self.openFolderAction)
-        self.fileToolBar.addAction(self.saveAction)
+        self.fileToolBar.addAction(self.actionOpenFile)
+        self.fileToolBar.addAction(self.actionOpenFolder)
+        #self.fileToolBar.addAction(self.saveAction)
         # self.fileToolBar.addAction(self.saveAsAction)
         # self.fileToolBar.addAction(self.quitAction)
         self.buildToolBar = self.addToolBar("Build")
-        self.buildToolBar.addAction(self.buildHTMLAction)
-        self.buildToolBar.addAction(self.buildPDFAction)
+        self.buildToolBar.addAction(self.actionBuildHtml)
+        #self.buildToolBar.addAction(self.buildPDFAction)
 
-    def openFile(self, path=None):
+    def on_open_file(self, path=None):
         """
             Ask the user to open a file via the Open File dialog.
             Then open it in the tree, editor, and HTML preview windows.
@@ -161,7 +200,7 @@ class MainWindow(QtGui.QMainWindow):
                 '',
                 "ReStructuredText Files (*.rst *.txt)"
             )
-
+        print path
         if path:
             file_path = Path(path[0])
             filename = file_path.name
@@ -202,12 +241,7 @@ class MainWindow(QtGui.QMainWindow):
                     "Unable to open file: %s" % filename
                 )
 
-    def openFolder(self, path=None):
-        """
-            Ask the user to open a folder (directory) via
-            the Open Folder dialog. Then open it in the tree,
-            editor, and HTML preview windows.
-        """
+    def on_open_folder(self, path=None):
         if not path:
             dialog = OpenDialog()
             dialog.set_folders_only(True)
@@ -239,7 +273,7 @@ class MainWindow(QtGui.QMainWindow):
         # Load corresponding HTML file from pre-built Sphinx docs
         self.preview.load_html(self.output_html_path)
 
-    def buildHTML(self):
+    def on_build_html(self):
         """
         Builds the .html version of the active file and reloads
         it in the preview pane.
@@ -286,3 +320,12 @@ class MainWindow(QtGui.QMainWindow):
         proc.wait()
         for line in proc.stdout:
             print("stdout: " + line.rstrip())
+
+
+    def on_quit(self):
+        ## offical pyqt way ?
+        #'QApplication::instance().quit() << Something like that
+        
+        #python way
+        sys.exit(0)
+        

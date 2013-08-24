@@ -15,6 +15,6 @@ if __name__ == '__main__':
     """ @todo - splash me"""
     
     window = MainWindow.MainWindow()
-    window.setup_app()
+  
     
     sys.exit(app.exec_())
